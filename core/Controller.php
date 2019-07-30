@@ -16,7 +16,7 @@ class Controller
             : new DB(include __DIR__ . '/../config.php');
         $this->articlesPerPage = isset($GLOBALS['articlesPerPage'])
             ? $GLOBALS['articlesPerPage']
-            : (include __DIR__ . '/../config.php')['pagination']['items'];
+            : (include __DIR__ . '/../config.php')['pagination']['articlesPerPage'];
     }
 
     public function actionIndex()
@@ -30,9 +30,10 @@ class Controller
         
         $data = [];
         $data['articles_count'] = Article::getCount();
-        $data['pages_count'] = (int)(($data['articles_count'] > 0)
+        $data['articles_per_page'] = $this->articlesPerPage;
+        /* $data['pages_count'] = (int)(($data['articles_count'] > 0)
             ? (($data['articles_count'] + $this->articlesPerPage - 1) / $this->articlesPerPage)
-            : 1);
+            : 1); */
         $data['authors'] = Author::getAll();
         $data['months'] = [1 => 'Январь' , 'Февраль' , 'Март' , 'Апрель' , 'Май' , 'Июнь' , 'Июль' , 'Август' , 'Сентябрь' , 'Октябрь' , 'Ноябрь' , 'Декабрь'];
         $data['years'] = Article::getYears();
@@ -45,7 +46,9 @@ class Controller
     public function actionFiltration($request)
     {
         $data = [];
+        $filters = [];
 
+        $filters[Article::ARTICLES_PER_PAGE] = $this->articlesPerPage;
         // todo: получение списка всех авторов
 
         if (isset($request['year'])) {
@@ -70,9 +73,12 @@ class Controller
 
         if (isset($request['page_number'])) {
             // todo: Добавление фильтра по номеру страницы
+            $filters[Article::PAGE_NUMBER_FILTER] =
+                ($request['page_number'] - 1) * $this->articlesPerPage;
         }
 
         // todo: Выборка всех статей по набранным фильтрам
+        $data = Article::getFiltered($filters);
 
         echo json_encode($data);
     }

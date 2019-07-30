@@ -126,8 +126,35 @@ body {
 }
 /* end sidebar */
 
+/* pagination */
+#pagination > ul {
+  list-style: none;
+}
 
+#pagination li {
+  font-weight: 700;
+  color: white;
+  font-size: 12px;
+  display: inline-block;
+  padding: 5px 10px;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  background-color: #262626;
+  transition: all 0.25s;
+  text-decoration: none;
+}
 
+#pagination li:hover, #pagination li.disabled {
+  background-color: #8c8d8e;
+}
+
+#pagination li.active {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+#pagination li a {
+  color: white;
+}
+/* end pagination */
 
 /* footer */
 

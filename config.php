@@ -7,7 +7,7 @@
  * @param String db_name  название базы данных
  * @param String user     username
  * @param String password
- * @param String items кол-во статей на странице
+ * @param String articlesPerPage кол-во статей на странице
  */
 
 return [
@@ -18,6 +18,6 @@ return [
         'password' => 'root'
     ],
     'pagination'       => [
-        'items' => 10
+        'articlesPerPage' => 10
     ]
 ];

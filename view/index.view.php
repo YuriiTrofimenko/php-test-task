@@ -19,6 +19,8 @@ href="/assets/css/index1024.css" rel="stylesheet" />
     <?php include __DIR__ . '/body.view.php' ?>
 
     <script src="/assets/js/jquery.min.js"></script>
+    <script src="/assets/js/jquery.simplePagination.js"></script>
+    <script src="/assets/js/hogan-3.0.2.min.js"></script>
     <script src="/assets/js/index.js"></script>
 </body>
 </html>

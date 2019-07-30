@@ -2,6 +2,9 @@
 
 class Article
 {
+    public const PAGE_NUMBER_FILTER = 'PAGE_NUMBER_FILTER';
+    public const ARTICLES_PER_PAGE = 'ARTICLES_PER_PAGE';
+
     public $id;
     public $title;
     public $annotation;
@@ -86,5 +89,23 @@ class Article
         // var_dump(array_column($db->query("SELECT DISTINCT YEAR(`created_at`) AS `year` FROM `articles` ORDER BY `year`"), 'year'));
         // die();
         return array_column($db->query("SELECT DISTINCT YEAR(`created_at`) AS `year` FROM `articles` ORDER BY `year`"), 'year');
+    }
+
+    public static function getFiltered($filters)
+    {
+      $db = $GLOBALS['db'];
+
+      $queryRoot = "SELECT `a`.`id` AS `id`, `a`.`title` AS `title`, `a`.`content` AS `text`, `a`.`annotation` AS `annotation`,  DATE_FORMAT(`a`.`created_at`, \"%d %M %Y\") AS `created_at`, `au`.`name` AS `author`, `p`.`link` AS `image`, `p`.`title` AS `image_alt` FROM `articles` AS `a` INNER JOIN `photos` AS `p` ON (`a`.`photo_id` = `p`.`id`) INNER JOIN `authors` AS `au` ON (`a`.`author_id` = `au`.`id`)";
+
+      // $constrains = " ORDER BY `created_at` LIMIT {$filters['ARTICLES_PER_PAGE']}";
+      $constrains = "LIMIT {$filters['ARTICLES_PER_PAGE']}";
+
+      if (isset($filters['PAGE_NUMBER_FILTER'])) {
+        $constrains .= " OFFSET {$filters['PAGE_NUMBER_FILTER']}";
+      }
+
+      return ['authors' => $db->getObjectsOf($queryRoot . $constrains, self::class)];
+      //return $queryRoot . $constrains;
+      //return $filters;
     }
 }
