@@ -8,7 +8,7 @@
       </div>
     </div>
   </div>
-  <div class="sidebar-item">
+  <div id="years" class="sidebar-item">
     <div class="sidebar-item__title">
       <div class="title">Год публикации</div>
       <div class="delimiter"></div>
@@ -17,10 +17,10 @@
       </div>
     </div>
     <div class="sidebar-item__content">
-      <a href="#" class="sidebar-item__label">2015</a>
+      <!-- <a href="#" class="sidebar-item__label">2015</a>
       <a href="#" class="sidebar-item__label">2016</a>
       <a href="#" class="sidebar-item__label">2017</a>
-      <a href="#" class="sidebar-item__label">2018</a>
+      <a href="#" class="sidebar-item__label">2018</a> -->
     </div>
   </div>
   <div class="sidebar-item">

@@ -13,11 +13,34 @@ body {
   background-color: #f1f3f5;
 }
 
+h5 {
+  font-size: 1.25rem;
+}
+
 .container {
   max-width: 1240px;
   width: calc(100% - 40px);
   padding: 0 20px;
   margin: 0 auto;
+}
+
+.card {
+  word-wrap: break-word;
+}
+
+.card-title {
+  margin-bottom: .75rem;
+}
+
+.card-img-top {
+  width: 100%;
+  border-top-left-radius: calc(.25rem - 1px);
+  border-top-right-radius: calc(.25rem - 1px);
+}
+
+img {
+  vertical-align: middle;
+  border-style: none;
 }
 
 /* header */
@@ -124,6 +147,10 @@ body {
 .sidebar-item__label:hover {
   background-color: #8c8d8e;
 }
+
+#years .active {
+  background-color: rgba(0, 0, 0, 0.5);
+}
 /* end sidebar */
 
 /* pagination */
@@ -193,3 +220,10 @@ body {
 }
 
 /* end footer */
+
+
+/* colors */
+.text-secondary {
+  color: #6c757d !important;
+}
+/* end colors */

@@ -31,12 +31,13 @@ class Controller
         $data = [];
         $data['articles_count'] = Article::getCount();
         $data['articles_per_page'] = $this->articlesPerPage;
-        /* $data['pages_count'] = (int)(($data['articles_count'] > 0)
-            ? (($data['articles_count'] + $this->articlesPerPage - 1) / $this->articlesPerPage)
-            : 1); */
         $data['authors'] = Author::getAll();
         $data['months'] = [1 => 'Январь' , 'Февраль' , 'Март' , 'Апрель' , 'Май' , 'Июнь' , 'Июль' , 'Август' , 'Сентябрь' , 'Октябрь' , 'Ноябрь' , 'Декабрь'];
-        $data['years'] = Article::getYears();
+        // Нумерованый массив превращается в массив объектов, чтобы в шаблоне для Hogan.js можно было задавть вывод его значений
+        $data['years'] = [];
+        foreach (Article::getYears() as $year) {
+            $data['years'][] = (object) ['y' => $year];
+        }
         echo json_encode($data);
     }
 
@@ -45,9 +46,11 @@ class Controller
      */
     public function actionFiltration($request)
     {
+        // Массив для данных, которые будут отправлены клиенту
         $data = [];
+        // Массив для ключей фильтра, который будет указан методу модели для формирования селективного запроса к БД
         $filters = [];
-
+        // Задание числа статей на одну страницу
         $filters[Article::ARTICLES_PER_PAGE] = $this->articlesPerPage;
         // todo: получение списка всех авторов
 
@@ -56,9 +59,10 @@ class Controller
         }
 
         // Фильтрация
-
-        if (isset($request['year'])) {
-            // todo: Добавление фильтра по выбранному году
+        // Если есть параметр "год"
+        if (isset($request['year']) /*&& $request['year'] != 'All'*/) {
+            // Добавление фильтра по выбранному году
+            $filters[Article::ARTICLES_YEAR] = $request['year'];
 
             if (isset($request['month'])) {
                 // todo: Добавление фильтра по месяцу
@@ -70,7 +74,7 @@ class Controller
         }
 
         // todo: Подсчет количества страниц, для создания пагинации
-
+        // Если есть номер страницы
         if (isset($request['page_number'])) {
             // todo: Добавление фильтра по номеру страницы
             $filters[Article::PAGE_NUMBER_FILTER] =
@@ -79,7 +83,7 @@ class Controller
 
         // todo: Выборка всех статей по набранным фильтрам
         $data = Article::getFiltered($filters);
-
+        // Отправка клиенту данных в формате json
         echo json_encode($data);
     }
 }
